@@ -2,38 +2,37 @@
 const schedulerName = 'work-day-scheduler'; //Used for the writeLocalStorage and readLocalStorage functions -- object name
 
 $(function () { // Call to jQuery to ensure that the code isn't run until the browser has finished rendering all the elements in the html.
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
-    const currHour = setInterval(getCurrentHour, 5000);
 
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  // buttons have aria-label="save" in common
-  let btnSave = $('[aria-label="save"]');
-    btnSave.on("click", handleSave);
+  // Add a listener for click events on the save button.
+  $('button[aria-label="save"]').on("click", handleSave);
+
+  // Applies the past, present, or future class to each time block by comparing the id to the current hour. 
+  const currHour = setInterval(getCurrentHour, 5000);
+    
+  // Gets any user input that was saved in localStorage and set the values of the corresponding textarea elements.
+  loadText();
   
   // Display the current date in the header of the page.
   $('#currentDay').text(dayjs().format('dddd, MMMM DD'));
 
 });
 
-//Functions to be called inside
+//Functions to be called inside the above jQuery check if loaded function.
 
 function getCurrentHour() {
-  //Used to get the current hour
-  console.log(dayjs().format('H'));
+  //Used to get the current hour & color the chart
+  let currHour = dayjs().format('H');
+
+  //Loops through the valid hours for the scheduler
+  for(let i=9; i<=17; i++) {
+    if(currHour == i) { //Adds present class and remvoes future & past
+        $('#hour-' + i).addClass('present').removeClass('future past');
+    } else if (currHour < i) { //Adds future class and remvoes present & past
+        $('#hour-' + i).addClass('future').removeClass('present past');
+    } else { //Adds past class and remvoes future & present
+        $('#hour-' + i).addClass('past').removeClass('future present');
+    }
+  }
 }
 
 function readLocalStorage(storageItem) {
@@ -50,7 +49,7 @@ function readLocalStorage(storageItem) {
 
 function writeLocalStorage(storageItem, storageObject) {
   //Function to write to LocalStorage
-  var currObject = readLocalStorage(lsName);
+  var currObject = readLocalStorage(storageItem);
 
   if(typeof storageObject !== 'object') { console.log("writeLocalStorage: Invalid type submitted."); return }
   currObject.push(storageObject)
@@ -62,5 +61,27 @@ function writeLocalStorage(storageItem, storageObject) {
 }
 
 function handleSave(event) {
-  console.log(event.target);
+  console.log("Function handleSave: " + event.currentTarget);
+  console.log("Function handleSave: " + event.currentTarget.dataset.index);
+
+  let currIndex = event.currentTarget.dataset.index;
+  let txtAr = 'textarea[data-index="' + currIndex + '"]';
+  let eventText = $(txtAr).val();
+
+  let data = { //Stores the hour and event in an object
+    hour: event.currentTarget.dataset.index,
+    text: eventText
+  }
+
+  //Calls function to write to local storage
+  writeLocalStorage(schedulerName, data)
+}
+
+function loadText() {
+  //Loads the text into the proper textarea
+  let objHours = readLocalStorage(schedulerName);
+
+  objHours.forEach((element) => {
+    $('textarea[data-index="' + element.hour + '"]').val(element.text);
+  });
 }
