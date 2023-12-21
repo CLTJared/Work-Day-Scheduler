@@ -7,19 +7,21 @@ $(function () { // Call to jQuery to ensure that the code isn't run until the br
   $('button[aria-label="save"]').on("click", handleSave);
 
   // Applies the past, present, or future class to each time block by comparing the id to the current hour. 
-  const currHour = setInterval(getCurrentHour, 5000);
+  const currHour = setInterval(setHourClass, 5000);
     
   // Gets any user input that was saved in localStorage and set the values of the corresponding textarea elements.
   loadText();
   
   // Display the current date in the header of the page.
-  $('#currentDay').text(dayjs().format('dddd, MMMM DD'));
-
+  const currDay = setInterval(updateCurrDay, 100000);
 });
 
 //Functions to be called inside the above jQuery check if loaded function.
+function updateCurrDay() {
+  $('#currentDay').text(dayjs().format('dddd, MMMM DD'));
+}
 
-function getCurrentHour() {
+function setHourClass() {
   //Used to get the current hour & color the chart
   let currHour = dayjs().format('H');
 
@@ -33,6 +35,12 @@ function getCurrentHour() {
         $('#hour-' + i).addClass('past').removeClass('future present');
     }
   }
+}
+
+function runOnceStart() {
+  //Called in body onload
+  setHourClass();
+  updateCurrDay();
 }
 
 function readLocalStorage(storageItem) {
@@ -52,6 +60,7 @@ function writeLocalStorage(storageItem, storageObject) {
   var currObject = readLocalStorage(storageItem);
 
   if(typeof storageObject !== 'object') { console.log("writeLocalStorage: Invalid type submitted."); return }
+
   currObject.push(storageObject)
 
   console.log('writeLocalStorage | ' + storageItem);
@@ -61,8 +70,8 @@ function writeLocalStorage(storageItem, storageObject) {
 }
 
 function handleSave(event) {
-  console.log("Function handleSave: " + event.currentTarget);
-  console.log("Function handleSave: " + event.currentTarget.dataset.index);
+  console.log("handleSave | Clicked on " + event.currentTarget); //Verifies what the user clicked on
+  console.log("handleSave | data-index is " + event.currentTarget.dataset.index); //Gets the value of data-index and logs it
 
   let currIndex = event.currentTarget.dataset.index;
   let txtAr = 'textarea[data-index="' + currIndex + '"]';
