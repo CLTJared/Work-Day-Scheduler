@@ -1,6 +1,8 @@
 # Work-Day-Scheduler
 A simple calendar application that allows a user to save events for each hour of a typical working day (9am–5pm).
 
+Utilizes DayJS, Bootstrap, and jQuery for styling and functionality of site.
+
 ## Usage
 * Opening the planner site will display the current day at the top of the calendar
 * Page will contain time blocks for standard business hours of 9am to 5pm
