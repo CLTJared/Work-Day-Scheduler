@@ -7,7 +7,7 @@ Page will contain time blocks for standard business hours of 9am to 5pm
 Each time block is color-coded to indicate whether it is in the past, present, or future
 Cliking a time block will allow the user to enter an event/information
 Clicking SAVE button will save information to local storage
-Refreshing teh page will show saved events persist
+Refreshing the page will show saved events persist
 
 # Installation
 [GitHub-Repo]url(https://github.com/CLTJared/Work-Day-Scheduler)
@@ -15,3 +15,4 @@ Refreshing teh page will show saved events persist
 
 # Demo
 ![Screenshot](./assets/images/work-day-scheduler.png)
+[GitHub-Demo]url(https://cltjared.github.io/Work-Day-Scheduler/)
