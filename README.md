@@ -10,9 +10,11 @@ A simple calendar application that allows a user to save events for each hour of
 * Refreshing the page will show saved events persist
 
 # Installation
-[GitHub-Repo]url(https://github.com/CLTJared/Work-Day-Scheduler)
+[GitHub-Repo](https://github.com/CLTJared/Work-Day-Scheduler)
+
 [Install-Command] `git clone git@github.com:CLTJared/Work-Day-Scheduler.git`
 
 # Demo
 ![Screenshot](./assets/images/work-day-scheduler.png)
-[GitHub-Demo]url(https://cltjared.github.io/Work-Day-Scheduler/)
+
+[GitHub-Demo](https://cltjared.github.io/Work-Day-Scheduler/)
