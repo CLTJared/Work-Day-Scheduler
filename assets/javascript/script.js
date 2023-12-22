@@ -55,11 +55,23 @@ function readLocalStorage(storageItem) {
   return tempStorage;
 }
 
-function writeLocalStorage(storageItem, storageObject) {
+function writeLocalStorage(storageItem, storageObject, overwrite) {
   //Function to write to LocalStorage
   var currObject = readLocalStorage(storageItem);
 
   if(typeof storageObject !== 'object') { console.log("writeLocalStorage: Invalid type submitted."); return }
+
+  if(overwrite === true) { //Do we want to overwrite a key in the array?
+    currObject.forEach((element, x) => {
+        var objKey = element.hour;
+        var objSome = Object.entries(element);
+
+        if(objKey == storageObject.hour) { 
+            console.log("Removing: " + currObject[x] + " | " + objKey);
+            currObject.splice(x,1)
+        }
+    })
+}
 
   currObject.push(storageObject)
 
@@ -78,12 +90,12 @@ function handleSave(event) {
   let eventText = $(txtAr).val();
 
   let data = { //Stores the hour and event in an object
-    hour: event.currentTarget.dataset.index,
+    hour: currIndex,
     text: eventText
   }
 
   //Calls function to write to local storage
-  writeLocalStorage(schedulerName, data)
+  writeLocalStorage(schedulerName, data, true)
 }
 
 function loadText() {
