@@ -1,6 +1,6 @@
 //Global Variables
 const schedulerName = 'work-day-scheduler'; //Used for the writeLocalStorage and readLocalStorage functions -- object name
-
+const alertMsg = $('#system-msg');
 
 $(function () { 
   // Call to jQuery to ensure that the code isn't run until the browser has 
@@ -76,6 +76,11 @@ function writeLocalStorage(storageItem, storageObject, overwrite) {
         }
     })
 }
+
+    //Set Alert Message
+    alertMsg.text('Successfully saved!');
+    alertMsg.addClass('show').removeClass('hide');
+
   //Adds storageObject to the end of the array
   currObject.push(storageObject)
 
@@ -101,6 +106,10 @@ function handleSave(event) {
 
   //Calls function to write to local storage
   writeLocalStorage(schedulerName, data, true)
+
+  setTimeout(() => {
+    alertMsg.addClass('hide').removeClass('show');
+  }, 3000);
 }
 
 function loadText() {
