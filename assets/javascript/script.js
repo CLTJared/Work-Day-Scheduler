@@ -67,7 +67,7 @@ function writeLocalStorage(storageItem, storageObject, overwrite) {
         var objSome = Object.entries(element);
 
         if(objKey == storageObject.hour) { 
-            console.log("Removing: " + currObject[x] + " | " + objKey);
+            console.log("Removing: " + element.hour + " - " + element.text);
             currObject.splice(x,1)
         }
     })
