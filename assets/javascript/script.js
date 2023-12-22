@@ -1,7 +1,10 @@
 //Global Variables
 const schedulerName = 'work-day-scheduler'; //Used for the writeLocalStorage and readLocalStorage functions -- object name
 
-$(function () { // Call to jQuery to ensure that the code isn't run until the browser has finished rendering all the elements in the html.
+
+$(function () { 
+  // Call to jQuery to ensure that the code isn't run until the browser has 
+  // finished rendering all the elements in the html.
 
   // Add a listener for click events on the save button.
   $('button[aria-label="save"]').on("click", handleSave);
@@ -59,25 +62,27 @@ function writeLocalStorage(storageItem, storageObject, overwrite) {
   //Function to write to LocalStorage
   var currObject = readLocalStorage(storageItem);
 
+  //Validation if the passed variable is an object for storageObject
   if(typeof storageObject !== 'object') { console.log("writeLocalStorage: Invalid type submitted."); return }
 
-  if(overwrite === true) { //Do we want to overwrite a key in the array?
-    currObject.forEach((element, x) => {
+  if(overwrite === true) { // Do we want to overwrite a key in the array? True/False
+    currObject.forEach((element, x) => { // Loop through each part of the array
         var objKey = element.hour;
         var objSome = Object.entries(element);
 
-        if(objKey == storageObject.hour) { 
+        if(objKey == storageObject.hour) { //Checks if the element.hour is the same value as storageObject.hour
             console.log("Removing: " + element.hour + " - " + element.text);
-            currObject.splice(x,1)
+            currObject.splice(x,1) //Removes the duplicate key
         }
     })
 }
-
+  //Adds storageObject to the end of the array
   currObject.push(storageObject)
 
   console.log('writeLocalStorage | ' + storageItem);
   console.log('writeLocalStorage | ' + JSON.stringify(storageObject));
 
+  //Saves item to local storage
   localStorage.setItem(storageItem, JSON.stringify(currObject))
 }
 
@@ -86,7 +91,7 @@ function handleSave(event) {
   console.log("handleSave | data-index is " + event.currentTarget.dataset.index); //Gets the value of data-index and logs it
 
   let currIndex = event.currentTarget.dataset.index;
-  let txtAr = 'textarea[data-index="' + currIndex + '"]';
+  let txtAr = 'textarea[data-index="' + currIndex + '"]'; //Get the textarea with the data-index
   let eventText = $(txtAr).val();
 
   let data = { //Stores the hour and event in an object
