@@ -12,6 +12,16 @@ textarea {
   padding: 10px;
 }
 
+.hide {
+  visibility: hidden;
+  transition: all 500ms ease-in-out;
+}
+
+.show {
+  visibility: visible;
+  transition: all 500ms ease-in-out;
+}
+
 .description {
   white-space: pre-wrap;
 }
